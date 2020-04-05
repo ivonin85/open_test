@@ -1,15 +1,10 @@
 package in.reqres;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import in.reqres.pojo.Users;
 import in.reqres.pages.GooglePage;
 import in.reqres.pages.OpenPage;
 import org.junit.Test;
 
-import java.io.*;
-
 import static com.codeborne.selenide.Selenide.open;
-import static org.junit.Assert.assertNotNull;
 
 public class Tests {
 
