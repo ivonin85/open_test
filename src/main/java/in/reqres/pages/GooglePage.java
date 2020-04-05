@@ -22,6 +22,8 @@ public class GooglePage {
                 assertTrue(val);
             }
         }
-        switchTo().window(1);
+
+        /** актуально только для https://www.google.ru/ */
+        //switchTo().window(1);
     }
 }

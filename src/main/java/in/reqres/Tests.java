@@ -17,7 +17,7 @@ public class Tests {
     OpenPage openPage = new OpenPage();
     Api api = new Api();
     private String checkUrl = "www.open.ru";
-    private String url = "https://www.google.ru/";
+    private String url = "https://www.google.com/";
     private String searchText = "Открытие";
 
     private String baseUrl = "https://reqres.in";
