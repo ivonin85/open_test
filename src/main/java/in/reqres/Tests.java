@@ -11,6 +11,8 @@ public class Tests {
     GooglePage googlePage = new GooglePage();
     OpenPage openPage = new OpenPage();
     Api api = new Api();
+    public final static String NAME = "name";
+    public final static String JOB = "job";
     private String checkUrl = "www.open.ru";
     private String url = "https://www.google.com/";
     private String searchText = "Открытие";
@@ -29,8 +31,8 @@ public class Tests {
 
     @Test
     public void postApiTest() {
-        api.setValueToJson("name", "Sergey Ivonin");
-        api.setValueToJson("job", "QA");
+        api.setValueToJson(NAME, "Sergey Ivonin");
+        api.setValueToJson(JOB, "QA");
         api.checkResponse(api.postRequest(baseUrl, postUrl));
 
     }

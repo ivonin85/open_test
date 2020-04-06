@@ -1,6 +1,8 @@
 package in.reqres;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import in.reqres.pojo.User;
 import in.reqres.pojo.Users;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -10,16 +12,20 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import static in.reqres.DataMap.mapObject;
+import static in.reqres.Tests.JOB;
+import static in.reqres.Tests.NAME;
 import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+
 public class Api {
 
-    public void setValueToJson(String var, String val){
+    public void setValueToJson(String var, String val) {
         mapObject().put(var, val);
     }
-    public Response postRequest(String baseUrl, String absolute){
+
+    public Response postRequest(String baseUrl, String absolute) {
         RestAssured.baseURI = baseUrl;
         return given().
                 contentType(ContentType.JSON).
@@ -29,7 +35,7 @@ public class Api {
                 then().extract().response();
     }
 
-    public Response getRequest(String baseUrl, String absolute){
+    public Response getRequest(String baseUrl, String absolute) {
         RestAssured.baseURI = baseUrl;
         return given().
                 when().
@@ -37,15 +43,26 @@ public class Api {
                 then().statusCode(200).extract().response();
     }
 
-    public void checkResponse(Response response){
-        for (String key: mapObject().keySet()){
+    public void checkResponse(Response response) {
+        /** вариант с маппингом*/
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            User user = objectMapper.readValue(response.getBody().asString(), User.class);
+            assertEquals(user.getJob(), mapObject().get(JOB));
+            assertEquals(user.getName(), mapObject().get(NAME));
+            System.out.println(user.getJob());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        /** вариант без маппинга, чтоб не плодить сущности, когда json простой*/
+        for (String key : mapObject().keySet()) {
             assertEquals(response.jsonPath().get(key), mapObject().get(key));
         }
 
 
     }
 
-    public void usersAssertNotNull(String baseUrl, String absoluteUrl ){
+    public void usersAssertNotNull(String baseUrl, String absoluteUrl) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             Users users = objectMapper.readValue(getRequest(baseUrl, absoluteUrl).getBody().asString(), Users.class);
